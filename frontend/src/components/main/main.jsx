@@ -162,8 +162,8 @@ const Main = () => {
                   <CardMedia
                     sx={{ height: 277 }}
                     // @ts-ignore
-                    image={`${item.attributes.productImg.data[0].attributes.url}`}
-                    title="green iguana"
+                    image={`${item?.productImg?.formats?.thumbnail?.url}`}
+                    title={item?.productTitle}
                   />
 
                   <CardContent>
@@ -173,16 +173,16 @@ const Main = () => {
                       alignItems={"center"}
                     >
                       <Typography gutterBottom variant="h6" component="div">
-                        {item.attributes.productTitle}
+                        {item.productTitle}
                       </Typography>
 
                       <Typography variant="subtitle1" component="p">
-                        ${item.attributes.productPrice}
+                        ${item.productPrice}
                       </Typography>
                     </Stack>
 
                     <Typography variant="body2" color="text.secondary">
-                      {item.attributes.productDescription}
+                      {item.productDescription}
                     </Typography>
                   </CardContent>
 
@@ -204,7 +204,7 @@ const Main = () => {
                     <Rating
                       precision={0.1}
                       name="read-only"
-                      value={item.attributes.productRating}
+                      value={item.productRating || 0}
                       readOnly
                     />
                   </CardActions>

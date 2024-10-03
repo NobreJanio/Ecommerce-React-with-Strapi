@@ -22,25 +22,38 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
+// Define um array de opções com códigos de idioma para serem usadas no select.
 const options = ["BR", "EN"];
 
+// Define um componente funcional chamado Header1
 const Header1 = () => {
+  
+  // Usa o hook useContext para acessar o contexto de modo de cor
   const colorMode = useContext(ColorModeContext);
+  // Usa o hook useTheme para acessar o tema atual
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  // Define dois estados locais usando o hook useState
+  const [anchorEl, setAnchorEl] = useState(null); // Estado do elemento âncora do menu suspenso
+  const [selectedIndex, setSelectedIndex] = useState(1); // Estado do índice selecionado
+
+  // Determina se o menu está aberto ou fechado com base no estado do âncora
   const open = Boolean(anchorEl);
+
+  // Define uma função para lidar com o clique na lista de itens do menu
   const handleClickListItem = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget); // Define o âncora para o elemento clicado
   };
 
+  // Define uma função para lidar com o clique em um item de menu específico
   const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setAnchorEl(null);
+    setSelectedIndex(index); // Define o índice selecionado
+    setAnchorEl(null); // Fecha o menu definindo o âncora para null
   };
 
+  // Define uma função para lidar com o fechamento do menu quando o usuário clica fora dele
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null); // Define o âncora para null para fechar o menu
   };
 
   return (
@@ -113,18 +126,18 @@ const Header1 = () => {
           </div>
 
           <List
-            component="nav"
-            aria-label="Device settings"
-            sx={{ p: 0, m: 0 }}
+            component="nav" //Define o tipo de elemento HTML que o componente de lista representa, neste caso, é um elemento de navegação.
+            aria-label="Device settings" //Define um rótulo acessível para a lista, usado por leitores de tela para descrever o propósito da lista.
+            sx={{ p: 0, m: 0 }} //Define estilos personalizados para a lista usando o sistema de estilo em linha, onde p representa padding e m representa margem, ambos definidos como zero.
           >
             <ListItem
               id="lock-button"
-              aria-haspopup="listbox"
-              aria-controls="lock-menu"
-              aria-label="when device is locked"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClickListItem}
-              sx={{ "&:hover": { cursor: "pointer" }, px: 1 }}
+              aria-haspopup="listbox" //Indica que o item de lista possui um submenu ou lista associada a ele.
+              aria-controls="lock-menu" //Define o ID do elemento que controla o submenu associado a este item de lista.
+              aria-label="when device is locked" //Fornece uma descrição acessível para o item de lista.
+              aria-expanded={open ? "true" : undefined} //Define se o submenu associado a este item de lista está expandido ou não, dependendo do estado da variável open.
+              onClick={handleClickListItem} //Define uma função para ser chamada quando o item de lista é clicado.
+              sx={{ "&:hover": { cursor: "pointer" }, px: 1 }} //Define estilos personalizados para o item de lista quando o mouse está sobre ele. Define também o padding horizontal.
             >
               <ListItemText
                 sx={{

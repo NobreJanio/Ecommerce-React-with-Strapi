@@ -24,8 +24,7 @@ const ProductDetails = ({ clickedProduct }) => {
           height={400}
           width={360}
           src={
-            clickedProduct.attributes.productImg.data[selectedImg].attributes
-              .url
+            clickedProduct.productImg.formats.thumbnail.url
           }
           alt=""
         />
@@ -33,13 +32,13 @@ const ProductDetails = ({ clickedProduct }) => {
 
       <Box sx={{ py: 2, textAlign: { xs: "center", sm: "left" } }}>
         <Typography variant="h5">
-          {clickedProduct.attributes.productTitle}
+          {clickedProduct.productTitle}
         </Typography>
         <Typography my={0.4} fontSize={"22px"} color={"crimson"} variant="h6">
-          ${clickedProduct.attributes.productPrice}
+          ${clickedProduct.productPrice}
         </Typography>
         <Typography variant="body1">
-          {clickedProduct.attributes.productDescription}
+          {clickedProduct.productDescription}
         </Typography>
 
         <Stack
@@ -60,34 +59,39 @@ const ProductDetails = ({ clickedProduct }) => {
               },
             }}
           >
-            {clickedProduct.attributes.productImg.data.map((item, index) => {
-              return (
-                <ToggleButton
-                  key={item.id}
-                  value={index}
-                  sx={{
-                    width: "110px",
-                    height: "110px",
-                    mx: 1,
-                    p: "0",
-                    opacity: "0.5",
-                  }}
-                >
-                  <img
-                    onClick={() => {
-                      setselectedImg(index);
+            {/* Certifique-se de que `productImg.data` existe e tem itens */}
+            {clickedProduct?.productImg?.data?.length > 0 ? (
+              clickedProduct.productImg.data.map((item, index) => {
+                return (
+                  <ToggleButton
+                    key={item.id}
+                    value={index}
+                    sx={{
+                      width: "110px",
+                      height: "110px",
+                      mx: 1,
+                      p: "0",
+                      opacity: "0.5",
                     }}
-                    style={{
-                      cursor: "pointer",
-                    }}
-                    height={"100%"}
-                    width={"100%"}
-                    src={item.attributes.url}
-                    alt=""
-                  />
-                </ToggleButton>
-              );
-            })}
+                  >
+                    <img
+                      onClick={() => {
+                        setselectedImg(index);
+                      }}
+                      style={{
+                        cursor: "pointer",
+                      }}
+                      height={"100%"}
+                      width={"100%"}
+                      src={item.formats?.thumbnail?.url || item.formats?.small?.url}
+                      alt=""
+                    />
+                  </ToggleButton>
+                );
+              })
+            ) : (
+              <p>No images available</p>
+            )}
           </ToggleButtonGroup>
         </Stack>
 
@@ -102,5 +106,6 @@ const ProductDetails = ({ clickedProduct }) => {
     </Box>
   );
 };
+
 
 export default ProductDetails;

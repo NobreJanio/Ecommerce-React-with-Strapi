@@ -1,0 +1,7 @@
+[build]
+  command = "cd backend && npm install && npm run build"
+  functions = "backend/functions" # Diretório onde você colocará suas funções serverless
+  publish = "frontend/build" # Caminho para os arquivos estáticos do front-end
+
+[functions]
+  node_bundler = "esbuild"

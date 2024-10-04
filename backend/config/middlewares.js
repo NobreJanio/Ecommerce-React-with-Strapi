@@ -30,7 +30,6 @@ module.exports = [
       headers: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
     },
   },
-
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',

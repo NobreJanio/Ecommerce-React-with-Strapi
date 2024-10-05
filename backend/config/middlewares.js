@@ -24,16 +24,14 @@ module.exports = [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['*'],
+      origin: ['https://ecommerce-90e52.web.app'],
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization'],
       exposeHeaders: ['Content-Type', 'Authorization'],
       maxAge: 3600,
       credentials: true,
-      allowHeaders: ['Content-Type', 'Authorization'],
     },
   },
-
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

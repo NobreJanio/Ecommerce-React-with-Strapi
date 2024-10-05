@@ -24,12 +24,16 @@ module.exports = [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['http://localhost:5173'], // Permitir apenas o localhost
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
-      headers: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+      origin: ['*'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      headers: ['Content-Type', 'Authorization'],
+      exposeHeaders: ['Content-Type', 'Authorization'],
+      maxAge: 3600,
+      credentials: true,
+      allowHeaders: ['Content-Type', 'Authorization'],
     },
   },
-  'strapi::cors',
+
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

@@ -24,7 +24,6 @@ module.exports = [
   {
     name: 'strapi::cors',
     config: {
-      enabled: true,
       origin: ['http://localhost:5173'], // Permitir apenas o localhost
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
       headers: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos

@@ -7,7 +7,7 @@ module.exports = [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'connect-src': ["'self'", 'https:'],
+          'connect-src': ["'self'", 'https:', 'http://localhost:1337'], // Permitir conexões com o backend
           'img-src': ["'self'", 'data:', 'blob:', 'market-assets.strapi.io', 'res.cloudinary.com'],
           'media-src': [
             "'self'",
@@ -24,12 +24,12 @@ module.exports = [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['https://ecommerce-90e52.web.app'],
+      origin: ['http://localhost:5173'], // Permitir origem do frontend
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization'],
       exposeHeaders: ['Content-Type', 'Authorization'],
       maxAge: 3600,
-      credentials: true,
+      credentials: true, // Habilitar o envio de cookies e credenciais
     },
   },
   'strapi::poweredBy',

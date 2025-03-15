@@ -1,3 +1,31 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// Temporary mock data until API integration
+const products = [];
+const categories = [];
+
+const initialState = {
+  products: products,
+  categories: categories,
+  status: 'idle',
+  error: null
+};
+
+export const productSlice = createSlice({
+  name: 'products',
+  initialState,
+  reducers: {
+    getProducts: (state) => {
+      state.products = products;
+    },
+    getCategories: (state) => {
+      state.categories = categories;
+    }
+  }
+});
+
+export const { getProducts, getCategories } = productSlice.actions;
+export default productSlice.reducer;
+
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 

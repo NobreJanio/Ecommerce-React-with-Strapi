@@ -69,7 +69,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const options = ["All Categories", "CAR", "Clothes", "Electronics"];
+const options = ["All Categories", "MEN", "WOMEN"];
 
 const Header2 = () => {
   const [anchorEl, setAnchorEl] = useState(null);

@@ -2,7 +2,23 @@
 import { AddShoppingCartOutlined } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 
-const ProductDetails = () => {
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  rating: number;
+}
+
+interface ProductDetailsProps {
+  product: Product;
+}
+
+const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+  if (!product) return null;
+
   return (
     <Box
       sx={{
@@ -13,21 +29,20 @@ const ProductDetails = () => {
       }}
     >
       <Box sx={{display: "flex"}}>
-        <img width={300} src="src/images/1.jpg" alt="" />
+        <img width={300} src={product.image} alt={product.title} />
       </Box>
 
-      <Box sx={{textAlign: {xs: "center", sm: "left"}}}  >
-        <Typography variant="h5">WOMEN'S FASHION</Typography>
+      <Box sx={{textAlign: {xs: "center", sm: "left"}}}>
+        <Typography variant="h5">{product.title}</Typography>
         <Typography my={0.4} fontSize={"22px"} color={"crimson"} variant="h6">
-          $12.99
+          ${product.price}
         </Typography>
         <Typography variant="body1">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {product.description}
         </Typography>
 
         <Stack sx={{justifyContent: {xs: "center", sm: "left"}}} direction={"row"} gap={1} my={2}>
-          {["src/images/1.jpg", "src/images/2.jpg"].map((item) => {
+          {[product.image, "src/images/2.jpg"].map((item) => {
             return (
               <img
                 style={{ borderRadius: 3 }}
@@ -41,7 +56,7 @@ const ProductDetails = () => {
           })}
         </Stack>
 
-        <Button sx={{mb: {xs: 1, sm: 0} ,textTransform: "capitalize" }} variant="contained">
+        <Button sx={{mb: {xs: 1, sm: 0}, textTransform: "capitalize" }} variant="contained">
           <AddShoppingCartOutlined sx={{ mr: 1 }} fontSize="small" />
           Buy now
         </Button>

@@ -1,4 +1,5 @@
 import { ExpandMore, ShoppingCartOutlined } from "@mui/icons-material";
+import { Link } from 'react-router-dom';
 import {
   Badge,
   Container,
@@ -9,6 +10,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, useTheme } from "@mui/material/styles";
+import { useSelector } from 'react-redux';
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
@@ -72,6 +74,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const options = ["All Categories", "MEN", "WOMEN"];
 
 const Header2 = () => {
+  const { totalQuantity } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
@@ -169,11 +172,13 @@ const Header2 = () => {
       </Search>
 
       <Stack direction={"row"} alignItems={"center"}>
-        <IconButton aria-label="cart">
-          <StyledBadge badgeContent={4} color="primary">
+        <Link to="/cart">
+          <IconButton aria-label="cart">
+          <StyledBadge badgeContent={totalQuantity} color="primary">
             <ShoppingCartIcon />
-          </StyledBadge>
-        </IconButton>
+            </StyledBadge>
+          </IconButton>
+        </Link>
 
         <IconButton>
           <Person2OutlinedIcon />

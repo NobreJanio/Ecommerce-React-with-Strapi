@@ -17,7 +17,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./slider.css";
-import IconSection from "./IconSection";
+
 
 
 const mySlider = [
@@ -258,7 +258,7 @@ const Hero = () => {
         </Box>
       </Box>
 
-      <IconSection />
+      
       
     </Container>
   );

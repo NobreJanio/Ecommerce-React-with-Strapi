@@ -4,8 +4,8 @@ const products = [];
 const categories = [];
 
 const initialState = {
-  products: products,
-  categories: categories,
+  products: [],
+  categories: [],
   status: 'idle',
   error: null
 };
@@ -23,7 +23,7 @@ export const productSlice = createSlice({
   }
 });
 
-export const { getProducts, getCategories } = productSlice.actions;
+export const { } = productSlice.actions;
 export default productSlice.reducer;
 
 // Need to use the React-specific entry point to import createApi

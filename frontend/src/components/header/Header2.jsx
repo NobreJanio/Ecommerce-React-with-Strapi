@@ -19,6 +19,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled("div")(({ theme }) => ({
   flexGrow: 0.4,
@@ -74,9 +75,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const options = ["All Categories", "MEN", "WOMEN"];
 
 const Header2 = () => {
+  const navigate = useNavigate();
   const { totalQuantity } = useSelector((state) => state.cart);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [searchText, setSearchText] = useState("");
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,6 +92,26 @@ const Header2 = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleInputChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleSearch = () => {
+    if (searchText.trim() !== "") {
+      const category = options[selectedIndex] === "All Categories" ? "" : options[selectedIndex];
+      navigate(`/?search=${encodeURIComponent(searchText)}&category=${encodeURIComponent(category)}`);
+    } else {
+      const category = options[selectedIndex] === "All Categories" ? "" : options[selectedIndex];
+      navigate(`/?category=${encodeURIComponent(category)}`);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   const theme = useTheme();
@@ -113,7 +136,13 @@ const Header2 = () => {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          value={searchText}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
+        <IconButton aria-label="search" onClick={handleSearch} sx={{ ml: 1 }}>
+          <SearchIcon />
+        </IconButton>
 
         <div>
           <List

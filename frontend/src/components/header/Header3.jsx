@@ -14,6 +14,7 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import MenuIcon from "@mui/icons-material/Menu";
 import WindowIcon from "@mui/icons-material/Window";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
@@ -31,8 +32,10 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import Links from "./Links";
+// Removido import duplicado de RouterLink, pois já foi importado acima com useNavigate
 
 const Header3 = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -116,7 +119,7 @@ const Header3 = () => {
             },
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem component={RouterLink} to="/category/bikes" onClick={handleClose}>
             <ListItemIcon>
               <ElectricBikeOutlined fontSize="small" />
             </ListItemIcon>
@@ -124,7 +127,7 @@ const Header3 = () => {
             <ListItemText>Bikes</ListItemText>
           </MenuItem>
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem component={RouterLink} to="/category/electronics" onClick={handleClose}>
             <ListItemIcon>
               <LaptopChromebookOutlined fontSize="small" />
             </ListItemIcon>
@@ -132,7 +135,7 @@ const Header3 = () => {
             <ListItemText>Electronics</ListItemText>
           </MenuItem>
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem component={RouterLink} to="/category/books" onClick={handleClose}>
             <ListItemIcon>
               <MenuBookOutlined fontSize="small" />
             </ListItemIcon>
@@ -140,7 +143,7 @@ const Header3 = () => {
             <ListItemText>Books</ListItemText>
           </MenuItem>
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem component={RouterLink} to="/category/games" onClick={handleClose}>
             <ListItemIcon>
               <SportsEsportsOutlined fontSize="small" />
             </ListItemIcon>
@@ -152,12 +155,12 @@ const Header3 = () => {
 
       {useMediaQuery("(min-width:1200px)") && (
         <Stack gap={4} direction={"row"} alignItems={"center"}>
-          <Links title={"Home"} />
-          <Links title={"Mega Menu"} />
-          <Links title={"Full Screen Menu"} />
-          <Links title={"Pages"} />
-          <Links title={"User Account"} />
-          <Links title={"Vendor Account"} />
+          <Links title={"Home"} to="/" />
+          <Links title={"Mega Menu"} to="/mega-menu" />
+          <Links title={"Full Screen Menu"} to="/full-screen-menu" />
+          <Links title={"Pages"} to="/pages" />
+          <Links title={"User Account"} to="/user-account" />
+          <Links title={"Vendor Account"} to="/vendor-account" />
         </Stack>
       )}
 
@@ -193,12 +196,17 @@ const Header3 = () => {
           </IconButton>
 
           {[
-            { mainLink: "Home", subLinks: ["Link 1", "Link 2", "Link 3"] },
-            { mainLink: "Mega menu", subLinks: ["Link 1", "Link 2", "Link 3"] },
-            { mainLink: "Full screen menu", subLinks: ["Link 1", "Link 2", "Link 3"], },
-            { mainLink: "Pages", subLinks: ["Link 1", "Link 2", "Link 3"] },
-            { mainLink: "User Account", subLinks: ["Link 1", "Link 2", "Link 3"], },
-            { mainLink: "Vendor Account", subLinks: ["Link 1", "Link 2", "Link 3"], },
+            { mainLink: "Home", subLinks: [], path: "/" },
+            { mainLink: "Mega menu", subLinks: [ {name: "Dashboard", path: "/mega-menu/dashboard"}, {name:"Products", path: "/mega-menu/products"}, {name:"Orders", path: "/mega-menu/orders"}, {name:"Profile", path: "/mega-menu/profile"} ], path: "/mega-menu" },
+            { mainLink: "Full screen menu", subLinks: [ {name: "Link 1", path: "/full-screen-menu/link1"}, {name: "Link 2", path: "/full-screen-menu/link2"}, {name: "Link 3", path: "/full-screen-menu/link3"} ], path: "/full-screen-menu" },
+            { mainLink: "Pages", subLinks: [ {name: "Page 1", path: "/pages/page1"}, {name: "Page 2", path: "/pages/page2"} ], path: "/pages" },
+            { mainLink: "User Account", subLinks: [ {name: "Login", path: "/user-account/login"}, {name: "Register", path: "/user-account/register"} ], path: "/user-account" },
+            { mainLink: "Vendor Account", subLinks: [ {name: "Login", path: "/vendor-account/login"}, {name: "Register", path: "/vendor-account/register"} ], path: "/vendor-account" },
+            // Adicionando os links de categoria também ao drawer, caso não estejam visíveis no menu principal
+            { mainLink: "Bikes", subLinks: [], path: "/category/bikes" },
+            { mainLink: "Electronics", subLinks: [], path: "/category/electronics" },
+            { mainLink: "Books", subLinks: [], path: "/category/books" },
+            { mainLink: "Games", subLinks: [], path: "/category/games" },
           ].map((item) => {
             return (
               <Accordion
@@ -207,24 +215,41 @@ const Header3 = () => {
                 sx={{ bgcolor: "initial" }}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
+                  expandIcon={item.subLinks && item.subLinks.length > 0 ? <ExpandMoreIcon /> : null}
+                  aria-controls={`panel1a-content-${item.mainLink}`}
+                  id={`panel1a-header-${item.mainLink}`}
+                  sx={{
+                    cursor: item.subLinks && item.subLinks.length === 0 ? 'pointer' : 'default',
+                    '&:hover': {
+                      backgroundColor: item.subLinks && item.subLinks.length === 0 ? theme.palette.action.hover : 'initial'
+                    }
+                  }}
+                  onClick={(e) => {
+                    if (item.subLinks && item.subLinks.length === 0 && item.path) {
+                      // Prevenir o comportamento padrão do AccordionSummary se for um link
+                      // e não tiver sublinks, para permitir a navegação.
+                      // e.stopPropagation(); // Pode ser necessário dependendo da estrutura exata
+                      navigate(item.path);
+                      toggleDrawer("top", false)(e); // Chama a função retornada para fechar o drawer
+                    }
+                  }}
                 >
                   <Typography>{item.mainLink}</Typography>
                 </AccordionSummary>
 
-                <List sx={{ py: 0, my: 0 }}>
-                  {item.subLinks.map((link) => {
-                    return (
-                      <ListItem key={link} sx={{ py: 0, my: 0 }}>
-                        <ListItemButton>
-                          <ListItemText primary={link} />
-                        </ListItemButton>
-                      </ListItem>
-                    );
-                  })}
-                </List>
+                {item.subLinks && item.subLinks.length > 0 && (
+                  <List sx={{ py: 0, my: 0 }}>
+                    {item.subLinks.map((subLink) => {
+                      return (
+                        <ListItem key={subLink.name} sx={{ py: 0, my: 0 }} disablePadding>
+                          <ListItemButton component={RouterLink} to={subLink.path} onClick={toggleDrawer("top", false)}>
+                            <ListItemText primary={subLink.name} />
+                          </ListItemButton>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                )}
               </Accordion>
             );
           })}
